@@ -1,0 +1,25 @@
+package com.example.ProjectManagementSystem.config;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
+import org.springframework.security.core.Authentication;
+import javax.crypto.SecretKey;
+import java.util.Date;
+
+public class JwtProvider {
+    // Dynamically generate a secure key with the correct size (256 bits for HMAC-SHA256)
+    static SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+
+    public static String generateToken(Authentication auth) {
+        return Jwts.builder().setIssuedAt(new Date())
+                .setExpiration(new Date(new Date().getTime() + 86400000)) // this jwt will expire after 1 day.
+                .claim("email", auth.getName())
+                .signWith(key)
+                .compact();
+    }
+    public static String getEmailFromToken(String jwt) {
+        Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(jwt).getBody();
+        return String.valueOf(claims.get("email"));
+    }
+}

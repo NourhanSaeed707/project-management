@@ -2,33 +2,32 @@ package com.example.ProjectManagementSystem.modal;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
-import java.time.LocalDate;
 import java.util.*;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Issue {
+@Builder
+public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String title;
+    private String name;
     private String description;
-    private String status;
-    private Long projectId;
-    private String priority;
-    private LocalDate dueDate;
+    private String category;
     private List<String> tags = new ArrayList<>();
-    @ManyToOne
-    private User assignee;
 
     @JsonIgnore
+    @OneToOne(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Chat chat;
+
     @ManyToOne
-    private Project project;
+    private User owner;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "issue", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Comments> comments = new ArrayList<>();
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true )
+    private List<Issue> issues = new ArrayList<>();
 
+    @ManyToMany
+    private List<User> team = new ArrayList<>();
 }

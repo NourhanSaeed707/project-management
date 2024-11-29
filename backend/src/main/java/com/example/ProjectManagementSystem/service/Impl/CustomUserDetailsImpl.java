@@ -1,4 +1,4 @@
-package com.example.ProjectManagementSystem.service;
+package com.example.ProjectManagementSystem.service.Impl;
 import com.example.ProjectManagementSystem.modal.User;
 import com.example.ProjectManagementSystem.respository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +16,11 @@ public class CustomUserDetailsImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(username);
-        if(user == null) {
+        Optional<User> user = userRepository.findByEmail(username);
+        if(user.isEmpty()) {
             throw new UsernameNotFoundException("user not found with email " + username);
         }
         List<GrantedAuthority> authorities = new ArrayList<>();
-        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
+        return new org.springframework.security.core.userdetails.User(user.get().getEmail(), user.get().getPassword(), authorities);
     }
 }

@@ -1,4 +1,4 @@
-package com.example.ProjectManagementSystem.service;
+package com.example.ProjectManagementSystem.service.Impl;
 import com.example.ProjectManagementSystem.config.JwtProvider;
 import com.example.ProjectManagementSystem.modal.User;
 import com.example.ProjectManagementSystem.request.LoginRequest;
@@ -13,6 +13,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class AuthService {
     @Autowired
@@ -23,8 +25,8 @@ public class AuthService {
     private CustomUserDetailsImpl customUserDetails;
 
     public AuthResponse register(User user) throws Exception {
-        User isUserExists = userRepository.findByEmail(user.getEmail());
-        if(isUserExists != null) {
+        Optional<User> isUserExists = userRepository.findByEmail(user.getEmail());
+        if(isUserExists.isPresent()) {
             throw new Exception("Email is already exists.");
         }
         User newUser = User.builder().email(user.getEmail())

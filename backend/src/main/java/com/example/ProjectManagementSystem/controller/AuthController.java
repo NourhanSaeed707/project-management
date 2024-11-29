@@ -2,7 +2,7 @@ package com.example.ProjectManagementSystem.controller;
 import com.example.ProjectManagementSystem.modal.User;
 import com.example.ProjectManagementSystem.request.LoginRequest;
 import com.example.ProjectManagementSystem.response.AuthResponse;
-import com.example.ProjectManagementSystem.service.AuthService;
+import com.example.ProjectManagementSystem.service.Impl.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

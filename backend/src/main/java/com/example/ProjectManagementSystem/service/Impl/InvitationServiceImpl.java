@@ -1,5 +1,5 @@
 package com.example.ProjectManagementSystem.service.Impl;
-import com.example.ProjectManagementSystem.exception.InvitationNotFound;
+import com.example.ProjectManagementSystem.exception.NotFoundException;
 import com.example.ProjectManagementSystem.exception.TokenInvalid;
 import com.example.ProjectManagementSystem.modal.Invitation;
 import com.example.ProjectManagementSystem.respository.InvitationRepository;
@@ -32,7 +32,7 @@ public class InvitationServiceImpl implements InvitationService {
 
     @Override
     public String getTokenByUserEmail(String userEmail) {
-        Invitation invitation = invitationRepository.findByEmail(userEmail).orElseThrow(() -> new InvitationNotFound("Invitation not found"));
+        Invitation invitation = invitationRepository.findByEmail(userEmail).orElseThrow(() -> new NotFoundException("Invitation not found"));
         return invitation.getToken();
     }
 

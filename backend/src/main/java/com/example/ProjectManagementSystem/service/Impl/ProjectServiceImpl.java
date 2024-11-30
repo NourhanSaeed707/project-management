@@ -1,6 +1,5 @@
 package com.example.ProjectManagementSystem.service.Impl;
-import com.example.ProjectManagementSystem.exception.ProjectNotFound;
-import com.example.ProjectManagementSystem.exception.UserNotFoundException;
+import com.example.ProjectManagementSystem.exception.NotFoundException;
 import com.example.ProjectManagementSystem.modal.Chat;
 import com.example.ProjectManagementSystem.modal.Project;
 import com.example.ProjectManagementSystem.modal.User;
@@ -49,7 +48,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Project getProjectById(Long projectId) throws Exception {
-        return projectRepository.findById(projectId).orElseThrow(() -> new ProjectNotFound("Project not found"));
+        return projectRepository.findById(projectId).orElseThrow(() -> new NotFoundException("Project not found"));
     }
 
     @Override
@@ -59,7 +58,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Project update(Project updateProject, Long projectId) throws Exception {
-        Project project = projectRepository.findById(projectId).orElseThrow(() -> new ProjectNotFound("Project not found"));
+        Project project = projectRepository.findById(projectId).orElseThrow(() -> new NotFoundException("Project not found"));
         project.setName(updateProject.getName());
         project.setDescription(updateProject.getDescription());
         project.setTags(updateProject.getTags());
@@ -68,8 +67,8 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public void addUserToProject(Long projectId, Long userId) throws Exception {
-        Project project = projectRepository.findById(projectId).orElseThrow(() -> new ProjectNotFound("Project not found"));
-        User user = userRepository.findById(userId).orElseThrow(()-> new UserNotFoundException("User not found"));
+        Project project = projectRepository.findById(projectId).orElseThrow(() -> new NotFoundException("Project not found"));
+        User user = userRepository.findById(userId).orElseThrow(()-> new NotFoundException("User not found"));
         if(!project.getTeam().contains(user)) {
             project.getChat().getUsers().add(user);
             project.getTeam().add(user);
@@ -79,8 +78,8 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public void removeUserToProject(Long projectId, Long userId) throws Exception {
-        Project project = projectRepository.findById(projectId).orElseThrow(() -> new ProjectNotFound("Project not found"));
-        User user = userRepository.findById(userId).orElseThrow(()-> new UserNotFoundException("User not found"));
+        Project project = projectRepository.findById(projectId).orElseThrow(() -> new NotFoundException("Project not found"));
+        User user = userRepository.findById(userId).orElseThrow(()-> new NotFoundException("User not found"));
         if(project.getTeam().contains(user)) {
             project.getChat().getUsers().remove(user);
             project.getTeam().remove(user);
@@ -90,7 +89,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Chat getChatByProjectId(Long projectId) throws Exception {
-        Project project = projectRepository.findById(projectId).orElseThrow(() -> new ProjectNotFound("Project not found"));
+        Project project = projectRepository.findById(projectId).orElseThrow(() -> new NotFoundException("Project not found"));
         return project.getChat();
     }
 

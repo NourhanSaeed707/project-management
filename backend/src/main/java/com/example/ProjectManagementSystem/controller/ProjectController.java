@@ -1,4 +1,5 @@
 package com.example.ProjectManagementSystem.controller;
+import com.example.ProjectManagementSystem.modal.Chat;
 import com.example.ProjectManagementSystem.modal.Project;
 import com.example.ProjectManagementSystem.modal.User;
 import com.example.ProjectManagementSystem.response.MessageResponse;
@@ -70,5 +71,25 @@ public class ProjectController {
         projectService.delete(projectId, user.getId());
         MessageResponse response = new MessageResponse("Project deleted successfully");
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Project>> searchProjects(
+            @RequestParam(required = false) String keyword,
+            @RequestParam("Authorization") String jwt
+    ) throws Exception {
+        User user = userService.findUserProfileByJwt((jwt));
+        List<Project> projects = projectService.searchProjects(keyword, user);
+        return new ResponseEntity<>(projects, HttpStatus.OK);
+    }
+
+    @GetMapping("/projectId/chat")
+    public ResponseEntity<Chat> getChatByProjectId(
+            @PathVariable Long projectId,
+            @RequestParam("Authorization") String jwt
+    ) throws Exception {
+        User user = userService.findUserProfileByJwt((jwt));
+        Chat chat = projectService.getChatByProjectId(projectId);
+        return new ResponseEntity<>(chat, HttpStatus.OK);
     }
 }

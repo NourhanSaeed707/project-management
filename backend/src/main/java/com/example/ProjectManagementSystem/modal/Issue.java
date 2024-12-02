@@ -9,6 +9,7 @@ import java.util.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Issue {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

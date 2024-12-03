@@ -22,10 +22,12 @@ public class Issue {
     private LocalDate dueDate;
     private List<String> tags = new ArrayList<>();
     @ManyToOne
+    @JoinColumn(name = "assignee_id")
     private User assignee;
 
     @JsonIgnore
     @ManyToOne
+    @JoinColumn(name = "projects_id")
     private Project project;
 
     @JsonIgnore

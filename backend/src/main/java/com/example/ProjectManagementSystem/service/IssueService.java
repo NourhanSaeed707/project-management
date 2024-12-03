@@ -10,7 +10,7 @@ public interface IssueService {
     Issue getIssueById(Long issueId) throws Exception;
     List<Issue> getIssueByProjectId(Long projectId) throws Exception;
     IssueDTO create(IssueRequest issue, User user) throws Exception;
-    String deleteIssue(Long issueId, Long userId) throws Exception;
+    void deleteIssue(Long issueId, Long userId) throws Exception;
     Issue addUserToIssue(Long issueId, Long userId) throws Exception;
     Issue updateStatus(Long issueId, String status) throws Exception;
 }

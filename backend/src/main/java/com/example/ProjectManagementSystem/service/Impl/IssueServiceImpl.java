@@ -12,9 +12,8 @@ import com.example.ProjectManagementSystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.modelmapper.ModelMapper;
+import java.util.*;
 
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class IssueServiceImpl implements IssueService {
@@ -46,7 +45,7 @@ public class IssueServiceImpl implements IssueService {
     }
 
     @Override
-    public String deleteIssue(Long issueId, Long userId) throws Exception {
+    public void deleteIssue(Long issueId, Long userId) throws Exception {
         issueRepository.deleteById(issueId);
     }
 

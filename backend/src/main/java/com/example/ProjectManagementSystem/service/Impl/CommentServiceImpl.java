@@ -32,12 +32,18 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void deleteComment(Long commentId, Long userId) {
-
+    public void deleteComment(Long commentId, Long userId) throws Exception {
+       Comments comment = commentRepository.findById(commentId).orElseThrow(() -> new NotFoundException("Comment not found"));
+       User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User not found"));
+       if(comment.getUser().equals(user)) {
+           commentRepository.delete(comment);
+       }else{
+           throw new Exception("User doesnot have permission to delete this comment!");
+       }
     }
 
     @Override
     public List<Comments> findCommentByIssueId(Long issueId) {
-        return List.of();
+        return commentRepository.findByIssueId(issueId).orElseThrow(() -> new NotFoundException("Issue not found"));
     }
 }

@@ -4,6 +4,7 @@ import java.util.*;
 
 public interface CommentService {
     Comments create(Long issueId, Long userId, String content);
-    void deleteComment(Long commentId, Long userId);
+    void deleteComment(Long commentId, Long userId) throws Exception;
     List<Comments> findCommentByIssueId(Long issueId);
+
 }

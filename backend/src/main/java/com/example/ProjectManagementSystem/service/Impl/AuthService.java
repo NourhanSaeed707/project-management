@@ -4,6 +4,7 @@ import com.example.ProjectManagementSystem.modal.User;
 import com.example.ProjectManagementSystem.request.LoginRequest;
 import com.example.ProjectManagementSystem.response.AuthResponse;
 import com.example.ProjectManagementSystem.respository.UserRepository;
+import com.example.ProjectManagementSystem.service.SubscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,6 +24,8 @@ public class AuthService {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private CustomUserDetailsImpl customUserDetails;
+    @Autowired
+    private SubscriptionService subscriptionService;
 
     public AuthResponse register(User user) throws Exception {
         Optional<User> isUserExists = userRepository.findByEmail(user.getEmail());
@@ -35,7 +38,8 @@ public class AuthService {
         Authentication authentication = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = JwtProvider.generateToken(authentication);
-        userRepository.save(newUser);
+        User savedUser = userRepository.save(newUser);
+        subscriptionService.create(savedUser);
         return AuthResponse.builder().jwt(jwt).message("sign up success").build();
 
     }

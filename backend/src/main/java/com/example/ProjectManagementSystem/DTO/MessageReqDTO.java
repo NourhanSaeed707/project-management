@@ -1,13 +1,11 @@
 package com.example.ProjectManagementSystem.DTO;
-
 import lombok.*;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class CommentsReqDTO {
-    private Long issueId;
+public class MessageReqDTO {
+    private Long senderId;
     private String content;
-
+    private Long projectId;
 }

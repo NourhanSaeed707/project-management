@@ -14,7 +14,7 @@ public class Subscription {
     private Long id;
     private LocalDate subscriptionStartDate;
     private LocalDate subscriptionEndDate;
-    private PlayType playType;
+    private PlanType planType;
     private boolean isValid;
     @OneToOne
     private User user;

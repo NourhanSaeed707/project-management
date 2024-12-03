@@ -1,6 +1,6 @@
 package com.example.ProjectManagementSystem.modal;
 
-public enum PlayType {
+public enum PlanType {
     FREE,
     MONTHLY,
     ANNUALLY

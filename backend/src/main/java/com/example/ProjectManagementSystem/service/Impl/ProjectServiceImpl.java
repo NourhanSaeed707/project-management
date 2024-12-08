@@ -9,7 +9,10 @@ import com.example.ProjectManagementSystem.service.ChatService;
 import com.example.ProjectManagementSystem.service.ProjectService;
 import com.example.ProjectManagementSystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,8 +28,17 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Project create(Project project, User user) throws Exception {
-        Project createdProject = createProjectFields(project, user);
-        project.getTeam().add(user);
+        Project createdProject = Project.builder()
+                .owner(user)
+                .name(project.getName())
+                .tags(project.getTags())
+                .category(project.getCategory())
+                .description(project.getDescription())
+                .team(new ArrayList<>())
+                .build();
+
+        createdProject.getTeam().add(user);
+        System.out.println("proj: " + project);
         Project savedProject = projectRepository.save(createdProject);
         Chat chat = Chat.builder().project(savedProject).build();
         Chat projectChat = chatService.create(chat);
@@ -98,9 +110,4 @@ public class ProjectServiceImpl implements ProjectService {
         return projectRepository.findByNameContainingAndTeamContains(keyword, user);
     }
 
-    private Project createProjectFields(Project project, User user) {
-        return Project.builder().owner(user).tags(project.getTags()).name(project.getName())
-                .category(project.getCategory())
-                .description(project.getDescription()).build();
-    }
 }

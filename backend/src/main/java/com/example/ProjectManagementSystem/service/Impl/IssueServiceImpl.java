@@ -1,5 +1,4 @@
 package com.example.ProjectManagementSystem.service.Impl;
-import com.example.ProjectManagementSystem.DTO.IssueDTO;
 import com.example.ProjectManagementSystem.exception.NotFoundException;
 import com.example.ProjectManagementSystem.modal.Issue;
 import com.example.ProjectManagementSystem.modal.Project;
@@ -11,9 +10,7 @@ import com.example.ProjectManagementSystem.service.ProjectService;
 import com.example.ProjectManagementSystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.modelmapper.ModelMapper;
 import java.util.*;
-
 
 @Service
 public class IssueServiceImpl implements IssueService {
@@ -23,8 +20,6 @@ public class IssueServiceImpl implements IssueService {
     private ProjectService projectService;
     @Autowired
     private UserService userService;
-    @Autowired
-    private ModelMapper modelMapper;
 
     @Override
     public Issue getIssueById(Long issueId) throws Exception {
@@ -37,11 +32,19 @@ public class IssueServiceImpl implements IssueService {
     }
 
     @Override
-    public IssueDTO create(IssueRequest issueBody, User user) throws Exception {
-        Issue issue = issueFields(issueBody, user);
-        IssueDTO issueDTO = modelMapper.map(issue, IssueDTO.class);
-        issueRepository.save(issue);
-        return issueDTO;
+    public Issue create(IssueRequest issueBody, User user) throws Exception {
+//        Issue issue = issueFields(issueBody, user);
+        Project project = projectService.getProjectById(issueBody.getProjectId());
+
+        Issue issue = new Issue();
+        issue.setStatus(issueBody.getStatus());
+        issue.setTitle(issueBody.getTitle());
+        issue.setDescription(issueBody.getDescription());
+        issue.setDueDate(issueBody.getDueDate());
+        issue.setPriority(issueBody.getPriority());
+        issue.setProjectId(issueBody.getProjectId());
+        issue.setProject(project);
+        return issueRepository.save(issue);
     }
 
     @Override

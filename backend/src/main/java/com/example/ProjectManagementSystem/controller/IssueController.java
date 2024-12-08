@@ -10,8 +10,7 @@ import com.example.ProjectManagementSystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/issue")
@@ -32,7 +31,7 @@ public class IssueController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<IssueDTO> create(@RequestBody IssueRequest issueRequest, @RequestHeader("Authorization") String token) throws Exception {
+    public ResponseEntity<Issue> create(@RequestBody IssueRequest issueRequest, @RequestHeader("Authorization") String token) throws Exception {
        User tokenUser = userService.findUserProfileByJwt(token);
        User user = userService.findUserById(tokenUser.getId());
        return ResponseEntity.ok(issueService.create(issueRequest, tokenUser));

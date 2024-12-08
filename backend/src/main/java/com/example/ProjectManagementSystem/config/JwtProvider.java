@@ -9,7 +9,7 @@ import java.util.Date;
 
 public class JwtProvider {
     // Dynamically generate a secure key with the correct size (256 bits for HMAC-SHA256)
-    static SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    static SecretKey key = Keys.hmacShaKeyFor(JwtConstant.SECRET_KEY.getBytes());
 
     public static String generateToken(Authentication auth) {
         return Jwts.builder().setIssuedAt(new Date())
@@ -19,6 +19,7 @@ public class JwtProvider {
                 .compact();
     }
     public static String getEmailFromToken(String jwt) {
+        jwt = jwt.substring(7);
         Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(jwt).getBody();
         return String.valueOf(claims.get("email"));
     }

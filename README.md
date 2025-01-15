@@ -29,10 +29,8 @@ Provides robust support for dependency injection, RESTful APIs, and database int
 A powerful relational database for storing structured project and task data.
 
 3- ORM: Hibernate/JPA
-Ensures seamless object-relational mapping and reduces boilerplate code for database interactions.
 
-4- Build Tool: Maven/Gradle
-Simplifies dependency management and builds automation.
+4- Build Tool: Maven
 
 5- Tools and Libraries:
 Lombok: For reducing boilerplate code (e.g., getters/setters).
